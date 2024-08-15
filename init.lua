@@ -60,7 +60,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require("lazy").setup({
   {
-    "folke/tokyonight.nvim",
+    "https://github.com/folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
     opts = {},
@@ -69,7 +69,7 @@ require("lazy").setup({
     end,
   },
   {
-    "lewis6991/gitsigns.nvim",
+    "https://github.com/lewis6991/gitsigns.nvim",
     opts = {
       on_attach = function(bufnr)
         local gitsigns = require('gitsigns')
@@ -119,7 +119,7 @@ require("lazy").setup({
     },
   },
   {
-    'nvim-telescope/telescope.nvim',
+    'https://github.com/nvim-telescope/telescope.nvim',
     tag = '0.1.8',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -138,6 +138,6 @@ require("lazy").setup({
       vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = "Find [G]it [F]iles" })
       vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = "Show [G]it [S]tatus" }) 
     end,
-  }
+  },
 })
 
