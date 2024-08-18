@@ -4,6 +4,7 @@ vim.g.maplocalleader = " "
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
+vim.opt.statusline = "%<%f %h%m%r%=%-14.(%l:%c%) %p%%"
 
 vim.opt.syntax = "on"
 vim.opt.mouse = "a" -- enable mouse
