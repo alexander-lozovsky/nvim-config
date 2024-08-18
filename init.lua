@@ -33,6 +33,17 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move to the left split" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move to the right split" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move to the bottom split" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move to the top split" })
+vim.keymap.set("n", "<leader>ef", "<Cmd>Ex<Cr>", { desc = "Explore files" })
+
+-- disable annoying keys
+vim.keymap.set({ "n", "i", "v" }, "<Up>", "")
+vim.keymap.set({ "n", "i", "v" }, "<Down>", "")
+vim.keymap.set({ "n", "i", "v" }, "<Left>", "")
+vim.keymap.set({ "n", "i", "v" }, "<Right>", "")
+vim.keymap.set({ "n", "i", "v" }, "<S-Up>", "")
+vim.keymap.set({ "n", "i", "v" }, "<S-Down>", "")
+vim.keymap.set({ "n", "i", "v" }, "<S-Left>", "")
+vim.keymap.set({ "n", "i", "v" }, "<S-Right>", "")
 
 -- autocommands
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -102,8 +113,20 @@ require("lazy").setup({
 				map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "Gitsigns Stage hunk" })
 				map("n", "<leader>hr", gitsigns.reset_hunk, { desc = "Gitsigns Reset hunk" })
 				map("n", "<leader>hu", gitsigns.undo_stage_hunk, { desc = "Gitsigns Undo stage hunk" })
+				map("v", "<leader>hs", function()
+					gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+				end)
+				map("v", "<leader>hr", function()
+					gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+				end)
+				map("v", "<leader>hu", function()
+					gitsigns.undo_stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+				end)
+
 				map("n", "<leader>hS", gitsigns.stage_buffer, { desc = "Gitsigns Stage buffer" })
 				map("n", "<leader>hR", gitsigns.reset_buffer, { desc = "Gitsigns Reset buffer" })
+				map("n", "<leader>hU", gitsigns.reset_buffer_index, { desc = "Gitsigns Undo stage buffer" })
+
 				map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "Gitsigns Preview hunk" })
 				map("n", "<leader>hb", function()
 					gitsigns.blame_line({ full = true })
@@ -114,9 +137,6 @@ require("lazy").setup({
 					gitsigns.diffthis("@")
 				end, { desc = "Gitsigns Diff against last commit" })
 				map("n", "<leader>td", gitsigns.toggle_deleted, { desc = "Gitsigns Toggle deleted" })
-				-- Visual modGitsigns e
-				-- map('v', '<leader>hs', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
-				-- map('v', '<leader>hr', function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
 
 				-- Text object
 				-- map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
@@ -140,7 +160,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find [H]elp tags" })
 
 			--git keypaps
-			vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "Find [G]it [F]iles" })
+			vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find Git Files" })
 			vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "Show [G]it [S]tatus" })
 		end,
 	},
