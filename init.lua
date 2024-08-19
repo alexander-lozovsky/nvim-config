@@ -27,13 +27,13 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- keymaps
-vim.keymap.set("n", "<Esc>", "<Cmd>nohlsearch<Cr>", { desc = "Hide search highlights" })
+vim.keymap.set("n", "<Esc>", vim.cmd.nohlsearch, { desc = "Hide search highlights" })
 vim.keymap.set("n", "<leader>I", "<Cmd>e $MYVIMRC<Cr>", { desc = "Open init.lua" })
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move to the left split" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move to the right split" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move to the bottom split" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move to the top split" })
-vim.keymap.set("n", "<leader>ef", "<Cmd>Ex<Cr>", { desc = "Explore files" })
+vim.keymap.set("n", "<leader>ef", vim.cmd.Ex, { desc = "Explore files" })
 
 -- disable annoying keys
 vim.keymap.set({ "n", "i", "v" }, "<Up>", "")
@@ -154,8 +154,7 @@ require("lazy").setup({
 			local builtin = require("telescope.builtin")
 
 			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find [F]iles" })
-
-			--vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+			vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
 			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find [B]uffers" })
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find [H]elp tags" })
 
