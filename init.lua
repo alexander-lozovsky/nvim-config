@@ -6,6 +6,9 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.statusline = "%<%f %h%m%r%=%-14.(%l:%c%) %p%%"
 
+vim.opt.foldmethod = "indent"
+vim.opt.foldlevelstart = 99
+
 -- vim.opt.syntax = "on"
 vim.opt.mouse = "a" -- enable mouse
 vim.opt.clipboard = "unnamedplus" -- copy yank to clipboard
@@ -34,6 +37,12 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move to the right split" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move to the bottom split" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move to the top split" })
 vim.keymap.set("n", "<leader>ef", vim.cmd.Ex, { desc = "Explore files" })
+
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
 
 -- disable annoying keys
 vim.keymap.set({ "n", "i", "v" }, "<Up>", "")
@@ -278,8 +287,8 @@ require("lazy").setup({
 			local lsp_attach = function(client, bufnr)
 				local opts = { buffer = bufnr }
 
-				vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
-				vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 				vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
 				vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
 				vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
@@ -319,5 +328,5 @@ require("lazy").setup({
 			},
 		},
 	},
-	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+	{ "Bilal2453/luvit-meta", lazy = true },
 })
