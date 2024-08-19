@@ -6,7 +6,7 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.statusline = "%<%f %h%m%r%=%-14.(%l:%c%) %p%%"
 
-vim.opt.syntax = "on"
+-- vim.opt.syntax = "on"
 vim.opt.mouse = "a" -- enable mouse
 vim.opt.clipboard = "unnamedplus" -- copy yank to clipboard
 vim.opt.cursorline = true -- highlight line with the cursor
@@ -191,5 +191,30 @@ require("lazy").setup({
 			-- Set up format-on-save
 			format_on_save = { timeout_ms = 1000 },
 		},
+	},
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function()
+			local configs = require("nvim-treesitter.configs")
+
+			configs.setup({
+				ensure_installed = {
+					"c",
+					"lua",
+					"vim",
+					"vimdoc",
+					"javascript",
+					"typescript",
+					"tsx",
+					"astro",
+					"html",
+					"css",
+				},
+				sync_install = false,
+				auto_install = true,
+				highlight = { enable = true },
+			})
+		end,
 	},
 })
