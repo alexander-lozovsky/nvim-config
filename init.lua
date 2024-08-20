@@ -43,6 +43,8 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
 
 -- disable annoying keys
 vim.keymap.set({ "n", "i", "v" }, "<Up>", "")
@@ -85,8 +87,15 @@ require("lazy").setup({
 		lazy = false,
 		priority = 1000,
 		opts = {},
+
 		init = function()
 			vim.cmd("colorscheme tokyonight-night")
+			local colors = require("tokyonight.colors").setup()
+
+			vim.api.nvim_set_hl(0, "LineNrAbove", { fg = colors.blue })
+			vim.api.nvim_set_hl(0, "LineNrBelow", { fg = colors.blue })
+			vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+			vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 		end,
 	},
 	{
@@ -228,6 +237,9 @@ require("lazy").setup({
 		end,
 	},
 	{
+		"nvim-treesitter/nvim-treesitter-context",
+	},
+	{
 		"VonHeikemen/lsp-zero.nvim",
 		branch = "v4.x",
 		lazy = true,
@@ -294,7 +306,7 @@ require("lazy").setup({
 				vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
 				vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
 				vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
-				vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+				vim.keymap.set("n", "<leader>gr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 				vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
 				vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 			end
