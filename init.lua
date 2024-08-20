@@ -171,10 +171,13 @@ require("lazy").setup({
 		config = function()
 			local builtin = require("telescope.builtin")
 
-			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find [F]iles" })
-			vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find [B]uffers" })
-			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find [H]elp tags" })
+			vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
+			vim.keymap.set("n", "<leader>sF", function()
+				builtin.find_files({ no_ignore = true, hidden = true })
+			end, { desc = "[S]earch All [F]iles" })
+			vim.keymap.set("n", "<leader>sg", builtin.live_grep, {})
+			vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch [B]uffers" })
+			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp tags" })
 
 			--git keypaps
 			vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find Git Files" })
