@@ -55,6 +55,19 @@ vim.keymap.set({ "n", "i", "v" }, "<S-Up>", "")
 vim.keymap.set({ "n", "i", "v" }, "<S-Down>", "")
 vim.keymap.set({ "n", "i", "v" }, "<S-Left>", "")
 vim.keymap.set({ "n", "i", "v" }, "<S-Right>", "")
+vim.keymap.set("n", "<leader>or", function()
+	local buf_name = vim.api.nvim_buf_get_name(0)
+	local line_num = vim.api.nvim__buf_stats(0).current_lnum
+	local command = "git blame " .. buf_name .. " " .. "-L " .. line_num .. "," .. line_num
+	local handle = io.popen(command)
+	local blame_line = handle:read("*l")
+	handle:close()
+
+	local commit = string.sub(blame_line, 1, 10)
+	local link = "https://bucket.digitalarsenal.net/nordvpn/brand/web/nordvpn-org/-/commit/" .. commit
+
+	vim.ui.open(link)
+end)
 
 -- autocommands
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -155,6 +168,7 @@ require("lazy").setup({
 					gitsigns.diffthis("@")
 				end, { desc = "Gitsigns Diff against last commit" })
 				map("n", "<leader>td", gitsigns.toggle_deleted, { desc = "Gitsigns Toggle deleted" })
+				map("n", "<leader>gb", gitsigns.blame_line)
 
 				-- Text object
 				-- map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
