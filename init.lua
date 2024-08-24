@@ -55,20 +55,61 @@ vim.keymap.set({ "n", "i", "v" }, "<S-Up>", "")
 vim.keymap.set({ "n", "i", "v" }, "<S-Down>", "")
 vim.keymap.set({ "n", "i", "v" }, "<S-Left>", "")
 vim.keymap.set({ "n", "i", "v" }, "<S-Right>", "")
+
 vim.keymap.set("n", "<leader>or", function()
 	local buf_name = vim.api.nvim_buf_get_name(0)
 	local line_num = vim.api.nvim__buf_stats(0).current_lnum
 	local command = "git blame " .. buf_name .. " " .. "-L " .. line_num .. "," .. line_num
-	local handle = io.popen(command)
-	local blame_line = handle:read("*l")
-	handle:close()
+	local blame_res = io.popen(command)
 
-	local commit = string.sub(blame_line, 1, 10)
-	local link = "https://bucket.digitalarsenal.net/nordvpn/brand/web/nordvpn-org/-/commit/" .. commit
+	if blame_res == nil then
+		print("cannot fetch blame line")
+		return
+	end
 
-	vim.ui.open(link)
+	local blame_line = blame_res:read("*l")
+	blame_res:close()
+
+	local commit = string.sub(blame_line, 1, 8)
+	commit = string.gsub(commit, "%^", "")
+
+	if commit:find("^000000") then
+		print("Changes are not commited yet")
+		return
+	end
+
+	local remote_url_res = io.popen("git remote get-url origin")
+	if remote_url_res == nil then
+		print("cannot fetch remote url")
+		return
+	end
+
+	local remote_url = remote_url_res:read("*l")
+	remote_url_res:close()
+
+	if remote_url:find("^git@") ~= nil then
+		remote_url = string.sub(remote_url, 5, -5)
+		remote_url = string.gsub(remote_url, ":", "/")
+		remote_url = "https://" .. remote_url
+	else
+		remote_url = string.sub(remote_url, 0, -5)
+	end
+
+	local isNordsec = remote_url:find("bucket.digitalarsenal.net") ~= nil
+	local isGithub = remote_url:find("github.com") ~= nil
+
+	if isGithub then
+		local link = remote_url .. "/commit/" .. commit
+		vim.ui.open(link)
+		return
+	end
+	if isNordsec then
+		local link = remote_url .. "/-/commit/" .. commit
+		vim.ui.open(link)
+		return
+	end
 end)
-
+--
 -- autocommands
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
@@ -382,3 +423,8 @@ vim.api.nvim_create_user_command("FormatEnable", function()
 end, {
 	desc = "Re-enable autoformat-on-save",
 })
+
+-- TODO
+-- Disable warnings text description
+-- Disable swap files
+-- add shortcut to replace a word
