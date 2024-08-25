@@ -9,9 +9,7 @@ vim.opt.statusline = "%<%f %h%m%r%=%-14.(%l:%c%) %p%%"
 vim.opt.foldmethod = "indent"
 vim.opt.foldlevelstart = 99
 
--- vim.opt.syntax = "on"
 vim.opt.mouse = "a" -- enable mouse
-vim.opt.clipboard = "unnamedplus" -- copy yank to clipboard
 vim.opt.cursorline = true -- highlight line with the cursor
 vim.opt.scrolloff = 10 -- lines to keep above and below the cursor
 
@@ -55,6 +53,9 @@ vim.keymap.set({ "n", "i", "v" }, "<S-Up>", "")
 vim.keymap.set({ "n", "i", "v" }, "<S-Down>", "")
 vim.keymap.set({ "n", "i", "v" }, "<S-Left>", "")
 vim.keymap.set({ "n", "i", "v" }, "<S-Right>", "")
+
+-- save the buffer
+vim.keymap.set({ "n", "i" }, "<C-s>", "<Esc><Cmd>w<Cr>")
 
 vim.keymap.set("n", "<leader>or", function()
 	local buf_name = vim.api.nvim_buf_get_name(0)
@@ -428,3 +429,4 @@ end, {
 -- Disable warnings text description
 -- Disable swap files
 -- add shortcut to replace a word
+-- add shortcuts to copy/paste text to the real clipboard
