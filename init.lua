@@ -5,6 +5,7 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.statusline = "%<%f %h%m%r%=%-14.(%l:%c%) %p%%"
+vim.opt.swapfile = false
 
 vim.opt.foldmethod = "indent"
 vim.opt.foldlevelstart = 99
@@ -56,6 +57,9 @@ vim.keymap.set({ "n", "i", "v" }, "<S-Right>", "")
 
 -- save the buffer
 vim.keymap.set({ "n", "i" }, "<C-s>", "<Esc><Cmd>w<Cr>")
+
+-- quit
+vim.keymap.set("n", "<C-S-w>", "<Cmd>qall!<Cr>")
 
 vim.keymap.set("n", "<leader>or", function()
 	local buf_name = vim.api.nvim_buf_get_name(0)
@@ -425,8 +429,11 @@ end, {
 	desc = "Re-enable autoformat-on-save",
 })
 
+vim.diagnostic.config({ virtual_text = false })
+
+vim.keymap.set("n", "<leader>ds", vim.diagnostic.show)
+vim.keymap.set("n", "<leader>dh", vim.diagnostic.hide)
 -- TODO
--- Disable warnings text description
--- Disable swap files
--- add shortcut to replace a word
 -- add shortcuts to copy/paste text to the real clipboard
+-- figure out how to rename a file and adjust paths everywhere
+-- figure out how to replace a name in all the project
