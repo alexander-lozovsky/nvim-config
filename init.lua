@@ -28,6 +28,9 @@ vim.opt.breakindent = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+-- disable diagnostic text
+vim.diagnostic.config({ virtual_text = false })
+
 -- keymaps
 vim.keymap.set("n", "<Esc>", vim.cmd.nohlsearch, { desc = "Hide search highlights" })
 vim.keymap.set("n", "<leader>I", "<Cmd>e $MYVIMRC<Cr>", { desc = "Open init.lua" })
@@ -429,10 +432,14 @@ end, {
 	desc = "Re-enable autoformat-on-save",
 })
 
-vim.diagnostic.config({ virtual_text = false })
+vim.keymap.set("n", "<leader>ds", function()
+	vim.diagnostic.config({ virtual_text = true })
+end)
 
-vim.keymap.set("n", "<leader>ds", vim.diagnostic.show)
-vim.keymap.set("n", "<leader>dh", vim.diagnostic.hide)
+vim.keymap.set("n", "<leader>dh", function()
+	vim.diagnostic.config({ virtual_text = false })
+end)
+
 -- TODO
 -- add shortcuts to copy/paste text to the real clipboard
 -- figure out how to rename a file and adjust paths everywhere
