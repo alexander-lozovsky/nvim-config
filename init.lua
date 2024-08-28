@@ -462,3 +462,6 @@ end)
 vim.keymap.set("n", "<leader>dh", function()
 	vim.diagnostic.config({ virtual_text = false })
 end)
+
+-- TODO
+-- add a command to save/restore current session
