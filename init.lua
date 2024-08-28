@@ -462,7 +462,3 @@ end)
 vim.keymap.set("n", "<leader>dh", function()
 	vim.diagnostic.config({ virtual_text = false })
 end)
-
--- TODO
--- figure out how to replace a name in all the project - search in telescope/add files to quickfix/run :cdo with replace
--- figure out how to rename a file and adjust paths everywhere - something similar with quickfix list and running a replacement command can be done
