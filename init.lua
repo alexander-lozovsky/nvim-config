@@ -64,6 +64,9 @@ vim.keymap.set({ "n", "i" }, "<C-s>", "<Esc><Cmd>w<Cr>")
 -- quit
 vim.keymap.set("n", "<C-S-w>", "<Cmd>qall!<Cr>")
 
+-- copy to clipboard
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y')
+
 vim.keymap.set("n", "<leader>or", function()
 	local buf_name = vim.api.nvim_buf_get_name(0)
 	local line_num = vim.api.nvim__buf_stats(0).current_lnum
@@ -173,17 +176,17 @@ require("lazy").setup({
 				end
 
 				-- Navigation
-				map("n", "]c", function()
+				map("n", "]h", function()
 					if vim.wo.diff then
-						vim.cmd.normal({ "]c", bang = true })
+						vim.cmd.normal({ "]h", bang = true })
 					else
 						gitsigns.nav_hunk("next")
 					end
 				end, { desc = "Next git hunk" })
 
-				map("n", "[c", function()
+				map("n", "[h", function()
 					if vim.wo.diff then
-						vim.cmd.normal({ "[c", bang = true })
+						vim.cmd.normal({ "[h", bang = true })
 					else
 						gitsigns.nav_hunk("prev")
 					end
@@ -245,6 +248,26 @@ require("lazy").setup({
 			--git keypaps
 			vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find Git Files" })
 			vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "Show [G]it [S]tatus" })
+
+			--lsp
+			vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "Show Diagnostics" })
+
+			local actions = require("telescope.actions")
+			require("telescope").setup({
+				defaults = {
+					layout_strategy = "horizontal",
+					sorting_strategy = "ascending",
+					layout_config = {
+						prompt_position = "top",
+					},
+					wrap_results = true,
+					mappings = {
+						i = {
+							["<C-k>"] = actions.smart_send_to_qflist + actions.open_qflist,
+						},
+					},
+				},
+			})
 		end,
 	},
 	{ -- Autoformat
@@ -441,6 +464,5 @@ vim.keymap.set("n", "<leader>dh", function()
 end)
 
 -- TODO
--- add shortcuts to copy/paste text to the real clipboard
--- figure out how to rename a file and adjust paths everywhere
--- figure out how to replace a name in all the project
+-- figure out how to replace a name in all the project - search in telescope/add files to quickfix/run :cdo with replace
+-- figure out how to rename a file and adjust paths everywhere - something similar with quickfix list and running a replacement command can be done
