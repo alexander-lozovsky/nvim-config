@@ -324,6 +324,7 @@ require("lazy").setup({
 					"astro",
 					"html",
 					"css",
+					"go",
 				},
 				sync_install = false,
 				auto_install = true,
@@ -412,7 +413,7 @@ require("lazy").setup({
 			})
 
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "tsserver", "astro", "eslint", "tailwindcss" },
+				ensure_installed = { "lua_ls", "tsserver", "astro", "eslint", "tailwindcss", "gopls" },
 				handlers = {
 					-- this first function is the "default handler"
 					-- it applies to every language server without a "custom handler"
