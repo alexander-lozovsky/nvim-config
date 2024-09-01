@@ -246,7 +246,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp tags" })
 
 			--git keypaps
-			vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find Git Files" })
+			vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Find Git Files" })
 			vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "Show [G]it [S]tatus" })
 
 			--lsp
@@ -420,6 +420,21 @@ require("lazy").setup({
 						require("lspconfig")[server_name].setup({})
 					end,
 				},
+			})
+			require("lspconfig").tsserver.setup({
+				root_dir = function(filename, bufnr)
+					if filename:find("/stella/") then
+						return "/Users/alexanderlozovsky/projects/nordsec/stella"
+					end
+
+					return require("lspconfig.util").root_pattern(
+						"tsconfig.json",
+						"jsconfig.json",
+						"package.json",
+						".git"
+					)(filename, bufnr)
+					-- print(filename, bufnr)
+				end,
 			})
 		end,
 	},
